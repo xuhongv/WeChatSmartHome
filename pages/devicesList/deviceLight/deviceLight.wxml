@@ -1,2 +1,19 @@
-<!--pages/devicesList/deviceLight.wxml-->
-<text>pages/devicesList/deviceLight.wxml</text>
+<view class="container">
+
+  <view>
+    <image src="{{valuePic}}" class='imgLight'></image>
+  </view>
+
+  <view class='item-power'>
+    <text class='ele_text'>电源：</text>
+    <switch bindchange="onSwitch" checked="{{isOpen}}" class='ele_switch' />
+
+  </view>
+
+  <view class='line'></view>
+  <view class='item_adjust_light'>
+    <text class="section_title">当前亮度：{{lightValue}}</text>
+    <slider value="{{valueSlier}}"class='slider' block-size="20" activeColor="#00BFFF" bindchange="eventSlider"/>
+    
+  </view>
+</view>

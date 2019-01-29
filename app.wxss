@@ -1,12 +1,7 @@
 /**app.wxss**/
 .container {
 
-
 } 
-
-
 text{
-
-
   color: #0AAAF6;
 }

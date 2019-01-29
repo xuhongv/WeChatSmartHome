@@ -1,4 +1,3 @@
-
 //获取应用实例
 const app = getApp()
 var util = require('../../utils/mqtt/util.js')
@@ -11,20 +10,18 @@ var that;
 var eventObj;
 //模拟数据获取，小伙伴项目可以去自己的服务器请求数据。
 var postData = require('../post-data.js');
-
 Page({
   data: {
-   
+    localDatas: postData
   },
   onLoad: function() {
 
     wx.showLoading({
-      title: '加载中...' ,
+      title: '加载中...',
     })
     this.setData({
-      cloudsDevices: postData.listData
+      cloudsDevices: this.data.localDatas.listData
     })
-  
     eventObj = onfire.on(app.mqttEventCode.CodeAllEvent, function(typeEvent, topic, msg) {
       switch (typeEvent) {
         //connect success
@@ -32,7 +29,7 @@ Page({
           console.log("connect success");
           wx.hideLoading()
           break;
-        //connect fail
+          //connect fail
         case app.mqttEventCode.CodeFailureConnect:
           console.log("connect fail -->  " + topic + ",msg:" + msg);
           wx.hideLoading()
@@ -50,10 +47,26 @@ Page({
 
   },
   onUnload: function() {
+    console.log("onUnLoad");
     onfire.un(app.mqttEventCode.CodeAllEvent);
     onfire.un(eventObj); //移除
   },
-  jumpDevice: function(e) {
+  jumpDeviceControl: function(e) {
 
+    var device = this.data.cloudsDevices[e.currentTarget.dataset.index];
+   // console.log("jumpDeviceControl name:" + device.name);
+   // console.log("jumpDeviceControl uuid:" + device.uuid);
+
+    switch (device.type) {
+      case 'light':
+        wx.navigateTo({
+          url: "../devicesList/deviceLight/deviceLight?uuid=" + device.uuid
+        })
+        break;
+      case 'socket':
+        break;
+      default:
+        break;
+    }
   }
 })

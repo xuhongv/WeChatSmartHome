@@ -1,66 +1,58 @@
-// pages/devicesList/deviceLight.js
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    userInfo: {},
+    logged: false,
+    takeSession: false,
+    requestResult: '',
+    client: null,
+    isOpen: false,
+    lightValue: 0,
+    valueSlier: 0,
+    valuePic: '../../../resoures/png/devices/light_on.jpg',
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  onLoad: function(options) {
 
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  eventSlider: function (e) {
+    console.log("发生 change 事件，携带值为:" + e.detail.value);
+    this.setData({
+      lightValue: e.detail.value
+    })
+    var obj = new Object();
+    obj.change = "pwm";
+    obj.value = e.detail.value;
+   // this.publish(app.globalData.pubTopic, JSON.stringify(obj), 1, false)
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  onSwitch: function (e) {
+    console.log("onSwitch success :" + e.detail.value);
+    var jsonObj = new Object();
+    jsonObj.change = "power";
+    jsonObj.value = "" + e.detail.value + "";
+    //this.publish(app.globalData.pubTopic, JSON.stringify(jsonObj), 1, false)
   },
+  syncUI: function() {
+    var msg;
+    var jsonObj = JSON.parse(msg.payloadString);
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+    if (typeof jsonObj.power == "boolean")
+      console.log("解析 power :" + jsonObj.power);
 
-  },
+    if (typeof jsonObj.brightNess == "number")
+      console.log("解析 brightNess ：" + jsonObj.brightNess);
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
+    var temp;
+    if (jsonObj.power == true) {
+      temp = '../pic/light_on.jpg';
+    } else
+      temp = '../pic/light_off.jpg';
 
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    that.setData({
+      valueSlier: jsonObj.brightNess,
+      lightValue: jsonObj.brightNess,
+      isOpen: jsonObj.power,
+      valuePic: temp,
+    })
   }
 })
