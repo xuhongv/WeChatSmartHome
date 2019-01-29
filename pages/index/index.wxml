@@ -1,0 +1,8 @@
+
+<view  wx:for="{{cloudsDevices}}" wx:key="key" wx:for-item='itemObj'>
+  <view class='item-deviceList' bindtap='jumpDevice'>
+    <image class='btnImg' src='{{itemObj.icon}}' class='deviceIcon'></image>
+    <text class='deviceName'>{{itemObj.name}}</text>
+    <image class='deviceInto' />
+  </view>
+</view>
